@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Clock in:</strong>
+  <%= @clock_event.clock_in %>
+</p>
+
+<% if @clock_event.clock_out.blank? %>
+  <%= link_to 'Clock Out', edit_teacher_clock_event_path(@teacher, @clock_event) %>
+<% else %>
+  <p>
+    <strong>Clock out:</strong>
+    <%= @clock_event.clock_out %>
+  </p>
+<% end %>
+
+<br>
+<%= link_to 'Back', teacher_clock_events_path(@teacher) %>

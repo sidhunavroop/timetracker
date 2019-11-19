@@ -1,0 +1,34 @@
+
+<%= form_for([@teacher, @clock_event]) do |form| %>
+  <% if clock_event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(clock_event.errors.count, "error") %> prohibited this clock_event from being saved:</h2>
+
+      <ul>
+      <% clock_event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :clock_in %>
+    <% timein = { required: true } %>
+    <% timein[:value] = DateTime.now unless @clock_event.persisted? %>
+    <%= form.text_field :clock_in, timein %>
+  </div>
+
+  <% if @clock_event.clock_in.present? %>
+    <div class="field">
+      <%= form.label :clock_out %>
+      <% timeout = { required: true } %>
+      <% timeout[:value] = DateTime.now unless @clock_event.clock_out.present? %>
+      <%= form.text_field :clock_out, timeout %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

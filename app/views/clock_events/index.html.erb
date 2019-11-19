@@ -1,0 +1,42 @@
+<% if teacher_signed_in? %>
+     <%= link_to "Logout", destroy_teacher_session_path, method: :delete %>
+<% else %>
+    <%= link_to 'Signin', new_teacher_session_path %>
+<% end %>
+<p id="notice"><%= notice %></p>
+
+<h1>Clock Events</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Clock in</th>
+      <th>Clock out</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @teacher.clock_events.each do |clock_event| %>
+      <tr>
+        <td><%= clock_event.clock_in %></td>
+        <td><%= clock_event.clock_out %></td>
+        <% if clock_event.clock_out.nil? %>
+          <td><%= link_to 'Clock OUT', edit_teacher_clock_event_path(@teacher, clock_event) %></td>
+        <% end %>        
+        <td><%= link_to 'Show', teacher_clock_event_path(@teacher, clock_event) %></td>
+        <td><%= link_to 'Edit', edit_teacher_clock_event_path(@teacher, clock_event) %></td>
+        <td><%= link_to 'Destroy', teacher_clock_event_path(@teacher, clock_event), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if current_teacher.clock_events.incomplete.last %>
+  <h4>Please clockout from the last event before starting the new one</h4>
+<% else %>
+  <%= link_to 'Clock IN', new_teacher_clock_event_path(@teacher) %>
+<% end %>
+
+
